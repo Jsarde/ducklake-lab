@@ -1,0 +1,32 @@
+# https://taskfile.dev
+version: '3'
+
+tasks:
+  default:
+    desc: "List all tasks."
+    cmds:
+      - uv run task --list
+    silent: true
+
+  start-container:
+    desc: "Build and start the Docker container."
+    cmds:
+      - docker-compose up -d
+    silent: true
+  
+  stop-container:
+    desc: "Stop the Docker container."
+    cmds:
+      - docker-compose down -v
+    silent: true
+  
+  init-catalog:
+    desc: "Initialize the catalog database for DuckLake."
+    cmds:
+      - uv run python3 scripts/init_catalog.py
+  
+  load-data:
+    desc: "Ingest parquet data into the DuckLake Lakehouse."
+    deps: [init-catalog]
+    cmds:
+      - uv run python3 scripts/ingest_data.py

@@ -12,3 +12,8 @@ dependencies = [
     "pyarrow>=22.0.0",
     "python-dotenv>=1.2.1",
 ]
+
+[dependency-groups]
+dev = [
+    "go-task-bin>=3.45.5",
+]
