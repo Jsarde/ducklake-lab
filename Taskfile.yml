@@ -21,7 +21,6 @@ tasks:
     silent: true
   
   init-catalog:
-    desc: "Initialize the catalog database for DuckLake."
     cmds:
       - uv run python3 scripts/init_catalog.py
   
@@ -30,3 +29,9 @@ tasks:
     deps: [init-catalog]
     cmds:
       - uv run python3 scripts/ingest_data.py
+  
+  cli:
+    desc: "Open an interactive SQL shell powered by DuckDB."
+    cmds:
+      - uv run python3 scripts/cli_query.py
+    silent: true
