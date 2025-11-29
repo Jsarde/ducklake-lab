@@ -17,6 +17,8 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+    networks:
+      - ducklake_network
 
   minio:
     image: minio/minio:latest
@@ -35,11 +37,13 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+    networks:
+      - ducklake_network
 
   # Optional: MinIO Client for bucket initialization
   minio-init:
     image: minio/mc:latest
-    container_name: ducklake-storage-init
+    container_name: storage-init
     depends_on:
       minio:
         condition: service_healthy
@@ -50,7 +54,16 @@ services:
       mc anonymous set download myminio/lakehouse;
       exit 0;
       "
+    networks:
+      - ducklake_network
 
 volumes:
   postgres_data:
+    name: postgres_data_volume
   minio_data:
+    name: minio_data_volume
+
+networks:
+  ducklake_network:
+    driver: bridge
+    enable_ipv6: false
